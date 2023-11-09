@@ -23,8 +23,11 @@ package org.pentaho.mantle.client.external.services;
 import com.google.gwt.core.client.GWT;
 import com.google.gwt.core.client.RunAsyncCallback;
 import com.google.gwt.user.client.ui.DeckPanel;
+import com.google.gwt.user.client.ui.Widget;
 import org.pentaho.mantle.client.external.services.definitions.IPerspectiveManagerUtils;
 import org.pentaho.mantle.client.workspace.SchedulesPerspectivePanel;
+
+import java.util.Iterator;
 
 public class PerspectiveManagerUtils implements IPerspectiveManagerUtils {
 
@@ -37,17 +40,61 @@ public class PerspectiveManagerUtils implements IPerspectiveManagerUtils {
     GWT.runAsync( new RunAsyncCallback() {
 
       public void onSuccess() {
-        if ( contentDeck.getWidgetIndex( SchedulesPerspectivePanel.getInstance() ) == -1 ) {
-          contentDeck.add( SchedulesPerspectivePanel.getInstance() );
-        } else {
-          SchedulesPerspectivePanel.getInstance().refresh();
+        console("PerspectiveManagerUtils#onSuccess: start !!!!!");
+        console("contentDeck:" + contentDeck );
+        try {
+
+          if ( hasChildren( contentDeck ) &&
+            contentDeck.getWidgetIndex( SchedulesPerspectivePanel.getInstance() ) == -1 ) {
+            console("PerspectiveManagerUtils 9!!!!!");
+            contentDeck.add( SchedulesPerspectivePanel.getInstance() );
+          } else {
+            console("PerspectiveManagerUtils 10!!!!!");
+            SchedulesPerspectivePanel.getInstance().refresh();
+          }
+          console("PerspectiveManagerUtils 11!!!!!");
+          contentDeck.showWidget( contentDeck.getWidgetIndex( SchedulesPerspectivePanel.getInstance() ) );
+        } catch (  Exception e ){
+          console("PerspectiveManagerUtils 7!!!!!", e);
+//          SchedulesPerspectivePanel.getInstance().refresh();
+//          contentDeck.add( SchedulesPerspectivePanel.getInstance()  );
+//          contentDeck.showWidget( contentDeck.getWidgetIndex( SchedulesPerspectivePanel.getInstance() ) );
         }
-        contentDeck.showWidget( contentDeck.getWidgetIndex( SchedulesPerspectivePanel.getInstance() ) );
+        console("PerspectiveManagerUtils#onSuccess: end !!!!!");
       }
 
       public void onFailure( Throwable reason ) {
+        console(" PerspectiveManagerUtils 1!!!!!", reason);
+        SchedulesPerspectivePanel.getInstance().refresh();
       }
     } );
+  }
+
+  public static void console(String text, Throwable t) {
+    console(text + " thowable-message:" + t.getMessage());
+  }
+  public static native void console(String text)
+/*-{
+    console.log(text);
+}-*/;
+
+  // DEBUG
+  public boolean hasChildren( DeckPanel deckPanel ) {
+    boolean hasChildren = false;
+    try {
+      hasChildren = deckPanel.getWidgetCount() > 0;
+      console("PerspectiveManagerUtils#hasChildren true with deckPanel.getWidgetCount(): " + deckPanel.getWidgetCount() );
+      Iterator<Widget> it = deckPanel.iterator();
+      while(it.hasNext()) {
+        Widget next = it.next();
+        console( "\tPerspectiveManagerUtils#hasChildren true with deckPanel.iterator().next().getElement().getId(): \""
+          + next.getElement().getId() + "\"" );
+      }
+    }
+    catch (  Exception e ) {
+      console("PerspectiveManagerUtils 2!!!!!", e );
+    }
+    return hasChildren;
   }
 
   private static native void setupNativeHooks( PerspectiveManagerUtils utils )

@@ -299,6 +299,7 @@ public class BlockoutPanel extends SimplePanel {
   }
 
   private void showData( final JsArray<JsJob> allBlocks ) {
+    createBlockoutHeadingBar();
     blockoutHeading.setText( Messages.getString( "blockoutTimes" ) );
     if ( allBlocks == null || allBlocks.length() == 0 ) {
       tablePanel.setVisible( false );

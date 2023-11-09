@@ -28,6 +28,7 @@ import com.google.gwt.http.client.RequestException;
 import com.google.gwt.http.client.Response;
 import com.google.gwt.resources.client.ImageResource;
 import com.google.gwt.user.cellview.client.CellTable;
+import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.Window;
 import com.google.gwt.user.client.ui.Label;
 import com.google.gwt.user.client.ui.SimplePanel;
@@ -53,20 +54,22 @@ public class SchedulesPerspectivePanel extends SimplePanel {
 
   public SchedulesPerspectivePanel() {
     try {
+      console( "Constructor for SchedulesPerspectivePanel(): start " );
       final String url = EnvironmentHelper.getFullyQualifiedURL() + "api/repo/files/canAdminister"; //$NON-NLS-1$
       RequestBuilder requestBuilder = new RequestBuilder( RequestBuilder.GET, url );
       requestBuilder.setHeader( "accept", "text/plain" ); //$NON-NLS-1$ //$NON-NLS-2$
       requestBuilder.setHeader( "If-Modified-Since", "01 Jan 1970 00:00:00 GMT" ); //$NON-NLS-1$ //$NON-NLS-2$
-      requestBuilder.sendRequest( null, new RequestCallback() {
+//      requestBuilder.setTimeoutMillis( 1000 );
+      Request r = requestBuilder.sendRequest( null, new RequestCallback() {
 
         public void onError( Request request, Throwable caught ) {
           isAdmin = false;
-          isScheduler = false;
+          isScheduler = false;console( "SchedulesPerspectivePanel 9!!!!!!!" );
         }
 
         public void onResponseReceived( Request request, Response response ) {
           isAdmin = "true".equalsIgnoreCase( response.getText() ); //$NON-NLS-1$
-
+          console( "SchedulesPerspectivePanel 8!!!!!!!" );
           try {
             final String url2 = ScheduleHelper.getPluginContextURL() + "api/scheduler/canSchedule"; //$NON-NLS-1$
             RequestBuilder requestBuilder2 = new RequestBuilder( RequestBuilder.GET, url2 );
@@ -75,13 +78,13 @@ public class SchedulesPerspectivePanel extends SimplePanel {
             requestBuilder2.sendRequest( null, new RequestCallback() {
 
               public void onError( Request request, Throwable caught ) {
-                isScheduler = false;
+                isScheduler = false;console( "SchedulesPerspectivePanel 3!!!!!!!" );
                 createUI();
 
               }
 
               public void onResponseReceived( Request request, Response response ) {
-                isScheduler = "true".equalsIgnoreCase( response.getText() ); //$NON-NLS-1$
+                isScheduler = "true".equalsIgnoreCase( response.getText() );console("SchedulesPerspectivePanel 4!!!!!"); //$NON-NLS-1$
                 createUI();
               }
 
@@ -91,14 +94,22 @@ public class SchedulesPerspectivePanel extends SimplePanel {
           }
         }
       } );
+
+//      console( "main http request: start" );
+//      while(r.isPending()) {
+//        // do nothing but wait
+//      }
+//      console( "main http request: end" );
+
     } catch ( RequestException e ) {
       Window.alert( e.getMessage() );
     }
 
+    console( "Constructor for SchedulesPerspectivePanel(): end " );
   }
 
   private void createUI() {
-
+    console( "SchedulesPerspectivePanel#createUI: start " );
     this.setStyleName( "schedulerPerspective" ); //$NON-NLS-1$
 
     wrapperPanel = new VerticalPanel();
@@ -126,12 +137,14 @@ public class SchedulesPerspectivePanel extends SimplePanel {
     sPanel.add( wrapperPanel );
     sPanel.setStylePrimaryName( "schedulerPerspective-wrapper" ); //$NON-NLS-1$
     add( sPanel );
-
+    console( "SchedulesPerspectivePanel#createUI: end " );
   }
 
   public void refresh() {
+    console( "SchedulesPerspectivePanel#refresh: start " );
     schedulesPanel.refresh();
     blockoutPanel.refresh();
+    console( "SchedulesPerspectivePanel#refresh: end " );
   }
 
   public interface CellTableResources extends CellTable.Resources {
@@ -147,4 +160,12 @@ public class SchedulesPerspectivePanel extends SimplePanel {
     @Source("org/pentaho/mantle/client/workspace/CellTable.css")
     public CellTable.Style cellTableStyle();
   }
+
+  public static void console(String text, Throwable t) {
+    console(text + " thowable-message:" + t.getMessage());
+  }
+  public static native void console(String text)
+/*-{
+    console.log(text);
+}-*/;
 }

@@ -220,11 +220,14 @@ public class SchedulesPanel extends SimplePanel {
 
         public void onError( Request request, Throwable exception ) {
           // showError(exception);
+          console( "Alljobs error");
         }
 
         public void onResponseReceived( Request request, Response response ) {
           if ( response.getStatusCode() == Response.SC_OK ) {
+            console( "Alljobs -json:" + response.getText() );
             allJobs = parseJson( JsonUtils.escapeJsonForEval( response.getText() ) );
+            console( "Alljobs -json end" );
             filterAndShowData();
           }
         }
@@ -233,6 +236,11 @@ public class SchedulesPanel extends SimplePanel {
       // showError(e);
     }
   }
+
+  public static native void console(String text)
+/*-{
+    console.log(text);
+}-*/;
 
   private void filterAndShowData() {
 
@@ -297,11 +305,14 @@ public class SchedulesPanel extends SimplePanel {
   private void updateControlSchedulerButtonStyle( ToolbarButton controlSchedulerButton, String state ) {
     boolean isRunning = SCHEDULER_STATE_RUNNING.equalsIgnoreCase( state );
 
-    final String tooltip = isRunning ? Messages.getString( "stopScheduler" ) : Messages.getString( "startScheduler" );
-    controlSchedulerButton.setToolTip( tooltip );
+    if ( controlSchedulerButton != null && controlSchedulerButton.getImage() != null) { // DEBUG
 
-    final String buttonIconCss = isRunning ? "icon-stop-scheduler" : "icon-start-scheduler";
-    controlSchedulerButton.setImage( ImageUtil.getThemeableImage( ICON_SMALL_STYLE, buttonIconCss ) );
+      final String tooltip = isRunning ? Messages.getString( "stopScheduler" ) : Messages.getString( "startScheduler" );
+      controlSchedulerButton.setToolTip( tooltip );
+
+      final String buttonIconCss = isRunning ? "icon-stop-scheduler" : "icon-start-scheduler";
+      controlSchedulerButton.setImage( ImageUtil.getThemeableImage( ICON_SMALL_STYLE, buttonIconCss ) );
+    }
   }
 
   private void updateJobScheduleButtonStyle( String state ) {
@@ -776,16 +787,17 @@ public class SchedulesPanel extends SimplePanel {
     if ( isAdmin ) {
       final ToolbarButton controlSchedulerButton = new ToolbarButton( ImageUtil.getThemeableImage(
         ICON_SMALL_STYLE, "icon-start-scheduler" ) );
+        if ( controlSchedulerButton != null && controlSchedulerButton.getImage() != null) { // DEBUG
+          controlSchedulerButton.setCommand( new Command() {
+            public void execute() {
+              toggleSchedulerOnOff( controlSchedulerButton, isScheduler );
+            }
+          } );
+          updateControlSchedulerButtonState( controlSchedulerButton, isScheduler );
 
-      controlSchedulerButton.setCommand( new Command() {
-        public void execute() {
-          toggleSchedulerOnOff( controlSchedulerButton, isScheduler );
+          bar.add( controlSchedulerButton );
+          bar.addSpacer( 20 );
         }
-      } );
-      updateControlSchedulerButtonState( controlSchedulerButton, isScheduler );
-
-      bar.add( controlSchedulerButton );
-      bar.addSpacer( 20 );
     }
 
     // Add filter button

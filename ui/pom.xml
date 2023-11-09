@@ -117,6 +117,9 @@
                             <goal>compile</goal>
                         </goals>
                         <configuration>
+                            <!-- DEBUG hard coding OBF -->
+<!--                            <extraJvmArgs>-Xms512m -Xmx1024m -Dstyle=OBF</extraJvmArgs>-->
+<!--                            <style>OBF</style>-->
                             <extraJvmArgs>-Xms512m -Xmx1024m</extraJvmArgs>
                             <style>${gwt.style}</style>
                             <module>${gwt.module}</module>
@@ -135,6 +138,8 @@
                 </property>
             </activation>
             <properties>
+                <!-- DEBUG for now -->
+<!--                <gwt.style>OBF</gwt.style>-->
                 <gwt.style>PRETTY</gwt.style>
                 <gwt.loglevel>WARN</gwt.loglevel>
             </properties>

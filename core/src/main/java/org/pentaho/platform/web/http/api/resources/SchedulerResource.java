@@ -75,7 +75,7 @@ public class SchedulerResource implements ISchedulerResource {
   protected static final Log logger = LogFactory.getLog( SchedulerResource.class );
 
   public SchedulerResource() {
-    schedulerService = new SchedulerService();
+    schedulerService = new SchedulerService(); // TODO convert to log statements
     System.out.println( "-----------------------------------------------------------------------" );
     System.out.println( "SchedulerResource was initialized." );
     System.out.println( "-----------------------------------------------------------------------" );
@@ -140,7 +140,7 @@ public class SchedulerResource implements ISchedulerResource {
     }
   }
 
-  public Response createJob( IJobScheduleRequest scheduleRequest ) {
+  public Response createJob( IJobScheduleRequest scheduleRequest ) { // TODO refactor createJob()
     try {
       return buildPlainTextOkResponse( schedulerService.createJob( (JobScheduleRequest) scheduleRequest ).getJobId() );
     } catch ( SchedulerException | IOException e ) {
@@ -542,7 +542,7 @@ public class SchedulerResource implements ISchedulerResource {
     }
   }
 
-  public List<IJob> getJobsList() {
+  public List<IJob> getJobsList() { // TODO refactor
     try {
       return schedulerService.getJobs();
     } catch ( SchedulerException e ) {
