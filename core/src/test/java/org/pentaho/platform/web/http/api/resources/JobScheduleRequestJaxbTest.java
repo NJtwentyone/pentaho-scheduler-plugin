@@ -67,9 +67,15 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "Top Customers (report)-manual-edit-", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 8);
-//    assertEquals("sLine", jobScheduleRequest.getJobParameters().get( 0 ).getName());
-//    assertEquals("string", jobScheduleRequest.getJobParameters().get( 0 ).getType());
-//    assertEquals("[[Product].[All Products].[Classic Cars]]", jobScheduleRequest.getJobParameters().get( 0 ).getStringValue().toString());
+    /*
+     why two classes for JobScheduleParam:
+       - org.pentaho.platform.web.http.api.resources.jobScheduleParam (POJO)
+       - org.pentaho.platform.api.scheduler.JobScheduleParam (XML annotations)
+     */
+    JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
+    assertEquals("sLine", jobScheduleParam1.getName());
+    assertEquals("string", jobScheduleParam1.getType());
+    assertEquals("[[Product].[All Products].[Classic Cars]]", jobScheduleParam1.getStringValue().toString());
 
   }
   @Test
@@ -92,9 +98,10 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "TestJobName1", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 0);
-//    assertEquals("ParameterNameTest1", jobScheduleRequest.getJobParameters().get( 0 ).getName());
-//    assertEquals("string", jobScheduleRequest.getJobParameters().get( 0 ).getType());
-//    assertTrue(jobScheduleRequest.getJobParameters().get( 0 ).getStringValue().contains( "false" ));
+    JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
+    assertEquals("ParameterNameTest1", jobScheduleParam1.getName());
+    assertEquals("string", jobScheduleParam1.getType());
+    assertTrue(jobScheduleParam1.getStringValue().contains( "false" ));
 
   }
 }
