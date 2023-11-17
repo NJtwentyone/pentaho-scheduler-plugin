@@ -25,7 +25,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElementRef;
+import javax.xml.bind.annotation.XmlElementRefs;
+import javax.xml.bind.annotation.XmlElementWrapper;
 import javax.xml.bind.annotation.XmlRootElement;
+
 
 import org.pentaho.platform.api.scheduler2.CronJobTrigger;
 import org.pentaho.platform.api.scheduler2.ICronJobTrigger;
@@ -98,7 +104,14 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
 
   SimpleJobTrigger simpleJobTrigger;
 
-  List<JobScheduleParam> jobParameters = new ArrayList<>();
+//  @XmlAnyElement
+//  @XmlElementRefs({
+////    @XmlElementRef(name="jobScheduleParam" ,type=JAXBElement.class),
+//    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JAXBElement.class)
+//  })
+//  @XmlElementWrapper(name="jobParameters")
+@XmlAnyElement
+  List<IJobScheduleParam> jobParameters = new ArrayList<>();
 
   Map<String, String> pdiParameters;
 
@@ -166,15 +179,15 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
     this.simpleJobTrigger = jobTrigger;
   }
 
-  public List getJobParameters() {
-    return (ArrayList<IJobScheduleParam>)(ArrayList<?>) jobParameters;
+  public List<IJobScheduleParam> getJobParameters() {
+    return jobParameters;
   }
 
   public void setJobParameters( List<IJobScheduleParam> jobParameters ) {
-    if ( jobParameters != (ArrayList<IJobScheduleParam>)(ArrayList<?>) this.jobParameters ) {
+    if ( jobParameters !=  this.jobParameters ) {
       this.jobParameters.clear();
       if ( jobParameters != null ) {
-        this.jobParameters.addAll( (ArrayList<JobScheduleParam>)(ArrayList<?>) jobParameters );
+        this.jobParameters.addAll( jobParameters );
       }
     }
   }

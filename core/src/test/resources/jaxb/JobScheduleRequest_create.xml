@@ -15,5 +15,10 @@
       <type>string</type>
       <stringValue>false</stringValue>
 <!--    </jobParameter> end: 1-->
+    <!--   <jobParameter> start: 2-->
+    <name>ParameterNameTest2</name>
+    <type>string</type>
+    <stringValue>foo</stringValue>
+    <!--    </jobParameter> end: 2-->
   </jobParameters>
 </jobScheduleRequest>

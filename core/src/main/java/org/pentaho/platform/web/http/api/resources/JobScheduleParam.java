@@ -22,6 +22,7 @@ package org.pentaho.platform.web.http.api.resources;
 
 import org.pentaho.platform.api.scheduler2.IJobScheduleParam;
 
+import javax.xml.bind.annotation.XmlRootElement;
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -29,6 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+@XmlRootElement
 public class JobScheduleParam implements Serializable, IJobScheduleParam {
 
   private static final long serialVersionUID = -4214459740606299083L;
@@ -42,6 +44,7 @@ public class JobScheduleParam implements Serializable, IJobScheduleParam {
   List<String> stringValue = new ArrayList<String>();
 
   public JobScheduleParam() {
+    throw new RuntimeException("wtf");
   }
 
   public JobScheduleParam( String name, String value ) {

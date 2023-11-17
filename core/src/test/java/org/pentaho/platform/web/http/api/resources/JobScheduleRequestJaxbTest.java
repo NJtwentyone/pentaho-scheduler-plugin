@@ -23,6 +23,7 @@ package org.pentaho.platform.web.http.api.resources;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.junit.Test;
+import org.pentaho.platform.api.scheduler2.JobParam;
 import org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.ObjectFactory;
 
 import javax.xml.bind.JAXBContext;
@@ -30,6 +31,7 @@ import javax.xml.bind.Unmarshaller;
 import javax.xml.transform.stream.StreamSource;
 import java.io.File;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
@@ -85,7 +87,12 @@ public class JobScheduleRequestJaxbTest {
     JAXBContext jaxbContext =
       JAXBContextFactory.createContext(new Class[]  {
         // NOTE: seems like you can use either class org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleRequest or org.pentaho.platform.web.http.api.resources.JobScheduleRequest
-        JobScheduleRequest.class,    ObjectFactory.class}, properties);
+       JobScheduleRequest.class,
+//        JobScheduleParam.class,
+        org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleParam.class,
+        org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleRequest.class,
+        ObjectFactory.class
+      }, properties);
     //    JAXBContext jaxbContext = JAXBContext.newInstance(new Class[] {JobScheduleRequest.class}, properties);
 
     Unmarshaller jaxbUnmarshaller = jaxbContext.createUnmarshaller();
@@ -98,6 +105,7 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "TestJobName1", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 0);
+    List wtf = jobScheduleRequest.getJobParameters();
     JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
     assertEquals("ParameterNameTest1", jobScheduleParam1.getName());
     assertEquals("string", jobScheduleParam1.getType());
