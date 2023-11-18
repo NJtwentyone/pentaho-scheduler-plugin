@@ -1008,7 +1008,9 @@ public class QuartzScheduler implements IScheduler {
   }
 
   public IJobScheduleRequest createJobScheduleRequest() {
-    return new JobScheduleRequest();
+//    return new JobScheduleRequest();
+    //DEBUG HACK
+    return null;
   }
 
   public IJobScheduleParam createJobScheduleParam() {

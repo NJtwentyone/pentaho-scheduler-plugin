@@ -30,7 +30,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-@XmlRootElement
+//@XmlRootElement
 public class JobScheduleParam implements Serializable, IJobScheduleParam {
 
   private static final long serialVersionUID = -4214459740606299083L;

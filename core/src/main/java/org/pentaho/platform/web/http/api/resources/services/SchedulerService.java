@@ -456,12 +456,13 @@ public class SchedulerService {
     jobRequest.setComplexJobTrigger( proxyTrigger );
     jobRequest.setInputFile( "aaaaa" );
     jobRequest.setOutputFile( "bbbbb" );
-    List<IJobScheduleParam> jobParams = new ArrayList<>();
+    List<JobScheduleParam> jobParams = new ArrayList<>(); // DEBUG HACK
     jobParams.add( new JobScheduleParam( "param1", "aString" ) );
     jobParams.add( new JobScheduleParam( "param2", 1 ) );
     jobParams.add( new JobScheduleParam( "param3", true ) );
     jobParams.add( new JobScheduleParam( "param4", new Date() ) );
-    jobRequest.setJobParameters( jobParams );
+    //DEBUG HACK
+        jobRequest.setJobParameters( jobParams );
     return jobRequest;
   }
 
@@ -520,7 +521,8 @@ public class SchedulerService {
   }
 
   public boolean getAutoCreateUniqueFilename( final JobScheduleRequest scheduleRequest ) {
-    List<IJobScheduleParam> jobParameters = scheduleRequest.getJobParameters();
+    List<JobScheduleParam> jobParameters = scheduleRequest.getJobParameters();
+    // DEBUG HACK
     for ( IJobScheduleParam jobParameter : jobParameters ) {
       if ( IScheduler.RESERVEDMAPKEY_AUTO_CREATE_UNIQUE_FILENAME.equals( jobParameter.getName() ) && "boolean"
         .equals( jobParameter.getType() ) ) {
@@ -531,7 +533,8 @@ public class SchedulerService {
   }
 
   public String getAppendDateFormat( final JobScheduleRequest scheduleRequest ) {
-    List<IJobScheduleParam> jobParameters = scheduleRequest.getJobParameters();
+    List<JobScheduleParam> jobParameters = scheduleRequest.getJobParameters();
+    // DEBUG HGACK
     for ( IJobScheduleParam jobParameter : jobParameters ) {
       if ( IScheduler.RESERVEDMAPKEY_APPEND_DATE_FORMAT.equals( jobParameter.getName() ) && "string"
         .equals( jobParameter.getType() ) ) {

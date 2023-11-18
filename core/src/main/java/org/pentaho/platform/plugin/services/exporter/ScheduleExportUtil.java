@@ -181,8 +181,9 @@ public class ScheduleExportUtil implements IExportHelper {
           continue;
         }
         try {
-          JobScheduleRequest scheduleRequest = ScheduleExportUtil.createJobScheduleRequest( job );
-          exportManifest.addSchedule( scheduleRequest );
+//          JobScheduleRequest scheduleRequest = ScheduleExportUtil.createJobScheduleRequest( job );
+//          exportManifest.addSchedule( scheduleRequest );
+          // DEBUG HACK
         } catch ( IllegalArgumentException e ) {
           log.warn( e.getMessage(), e );
         }

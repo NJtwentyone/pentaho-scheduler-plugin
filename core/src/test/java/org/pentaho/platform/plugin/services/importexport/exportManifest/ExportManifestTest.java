@@ -122,7 +122,8 @@ public class ExportManifestTest extends TestCase {
     jobScheduleRequest.setRunSafeMode( "runSafeMode" );
     jobScheduleRequest.setGatheringMetrics( "gatheringMetrics" );
     jobScheduleRequest.setLogLevel( "Basic" );
-    exportManifest.addSchedule( jobScheduleRequest );
+//    exportManifest.addSchedule( jobScheduleRequest );
+    // DEBUG HACK
 
     // Datasource
     DatabaseConnection connection = new DatabaseConnection();

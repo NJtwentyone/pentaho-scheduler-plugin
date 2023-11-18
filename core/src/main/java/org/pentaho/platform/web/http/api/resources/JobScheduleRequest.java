@@ -42,7 +42,7 @@ import org.pentaho.platform.api.scheduler2.JobState;
 import org.pentaho.platform.api.scheduler2.SimpleJobTrigger;
 
 @XmlRootElement
-public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
+public class JobScheduleRequest implements Serializable/*, IJobScheduleRequest*/ {
 
   private static final long serialVersionUID = -485489832281790257L;
 
@@ -104,13 +104,13 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
 
   SimpleJobTrigger simpleJobTrigger;
 
-//  @XmlAnyElement
-  @XmlElementRefs({
-    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JobScheduleParam.class)
-  })
-  @XmlElementWrapper(name="jobParameters")
-@XmlAnyElement(lax = true)
-  List<IJobScheduleParam> jobParameters = new ArrayList<>();
+////  @XmlAnyElement
+//  @XmlElementRefs({
+//    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JobScheduleParam.class)
+//  })
+//  @XmlElementWrapper(name="jobParameters")
+////@XmlAnyElement(lax = true)
+  List<JobScheduleParam> jobParameters = new ArrayList<>();
 
   Map<String, String> pdiParameters;
 
@@ -138,7 +138,7 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
     this.outputFile = file;
   }
 
-  @Override public void setPdiParameters( Map<String, String> stringStringHashMap ) {
+ /* @Override */public void setPdiParameters( Map<String, String> stringStringHashMap ) {
     this.pdiParameters = stringStringHashMap;
   }
 
@@ -178,11 +178,11 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
     this.simpleJobTrigger = jobTrigger;
   }
 
-  public List<IJobScheduleParam> getJobParameters() {
+  public List<JobScheduleParam> getJobParameters() {
     return jobParameters;
   }
 
-  public void setJobParameters( List<IJobScheduleParam> jobParameters ) {
+  public void setJobParameters( List<JobScheduleParam> jobParameters ) {
     if ( jobParameters !=  this.jobParameters ) {
       this.jobParameters.clear();
       if ( jobParameters != null ) {
@@ -235,11 +235,11 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
     this.timeZone = timeZone;
   }
 
-  @Override public void setSimpleJobTrigger( ISimpleJobTrigger jobTrigger ) {
+  /*@Override*/ public void setSimpleJobTrigger( ISimpleJobTrigger jobTrigger ) {
     simpleJobTrigger = (SimpleJobTrigger) jobTrigger;
   }
 
-  @Override public void setCronJobTrigger( ICronJobTrigger cron ) {
+ /* @Override*/ public void setCronJobTrigger( ICronJobTrigger cron ) {
     cronJobTrigger = (CronJobTrigger) cron;
   }
 
