@@ -88,7 +88,7 @@ public class JobScheduleRequestJaxbTest {
       JAXBContextFactory.createContext(new Class[]  {
         // NOTE: seems like you can use either class org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleRequest or org.pentaho.platform.web.http.api.resources.JobScheduleRequest
        JobScheduleRequest.class,
-        JobScheduleParam.class,
+//        JobScheduleParam.class,
 //        org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleParam.class,
 //        org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.JobScheduleRequest.class,
         ObjectFactory.class
@@ -105,8 +105,7 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "TestJobName1", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 0);
-    List wtf = jobScheduleRequest.getJobParameters();
-    String wtfs = wtf.get( 0 ).toString();
+    List jobScheduleParams = jobScheduleRequest.getJobParameters(); // debug
     JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
     assertEquals("ParameterNameTest1", jobScheduleParam1.getName());
     assertEquals("string", jobScheduleParam1.getType());

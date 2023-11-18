@@ -105,10 +105,9 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
   SimpleJobTrigger simpleJobTrigger;
 
 //  @XmlAnyElement
-//  @XmlElementRefs({
-////    @XmlElementRef(name="jobScheduleParam" ,type=JAXBElement.class),
-//    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JAXBElement.class)
-//  })
+  @XmlElementRefs({
+    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JobScheduleParam.class)
+  })
   @XmlElementWrapper(name="jobParameters")
 @XmlAnyElement(lax = true)
   List<IJobScheduleParam> jobParameters = new ArrayList<>();
