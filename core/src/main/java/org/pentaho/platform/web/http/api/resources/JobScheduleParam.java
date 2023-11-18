@@ -44,7 +44,6 @@ public class JobScheduleParam implements Serializable, IJobScheduleParam {
   List<String> stringValue = new ArrayList<String>();
 
   public JobScheduleParam() {
-    throw new RuntimeException("wtf");
   }
 
   public JobScheduleParam( String name, String value ) {
