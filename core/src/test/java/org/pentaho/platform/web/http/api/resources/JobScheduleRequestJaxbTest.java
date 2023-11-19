@@ -23,6 +23,7 @@ package org.pentaho.platform.web.http.api.resources;
 import org.eclipse.persistence.jaxb.JAXBContextFactory;
 import org.eclipse.persistence.jaxb.JAXBContextProperties;
 import org.junit.Test;
+import org.pentaho.platform.api.scheduler2.IJobScheduleParam;
 import org.pentaho.platform.api.scheduler2.JobParam;
 import org.pentaho.platform.plugin.services.importexport.exportManifest.bindings.ObjectFactory;
 
@@ -69,15 +70,18 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "Top Customers (report)-manual-edit-", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 8);
-    /*
-     why two classes for JobScheduleParam:
-       - org.pentaho.platform.web.http.api.resources.jobScheduleParam (POJO)
-       - org.pentaho.platform.api.scheduler.JobScheduleParam (XML annotations)
-     */
-    JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
-    assertEquals("sLine", jobScheduleParam1.getName());
-    assertEquals("string", jobScheduleParam1.getType());
-    assertEquals("[[Product].[All Products].[Classic Cars]]", jobScheduleParam1.getStringValue().toString());
+
+    // param test 1
+    IJobScheduleParam param1 = jobScheduleRequest.getJobParameters().stream()
+      .filter( jsp ->  "sLine".equals( jsp.getName())).findFirst().get();
+    assertEquals("string", param1.getType());
+    assertTrue(param1.getStringValue().contains("[Product].[All Products].[Classic Cars]"));
+
+    // param test 2
+    IJobScheduleParam param2 = jobScheduleRequest.getJobParameters().stream()
+      .filter( jsp ->  "::session".equals( jsp.getName()) ).findFirst().get();
+    assertEquals("string", param2.getType());
+    assertTrue(param2.getStringValue().toString().contains( "09b24716-84a6-11ee-8f4b-66860150dd1e" ));
 
   }
   @Test
@@ -105,11 +109,18 @@ public class JobScheduleRequestJaxbTest {
     //asserts
     assertEquals( "TestJobName1", jobScheduleRequest.getJobName() );
     assertTrue(jobScheduleRequest.getJobParameters().size() > 0);
-    List jobScheduleParams = jobScheduleRequest.getJobParameters(); // debug
-    JobScheduleParam jobScheduleParam1 = (JobScheduleParam) jobScheduleRequest.getJobParameters().get( 0 );
-    assertEquals("ParameterNameTest1", jobScheduleParam1.getName());
-    assertEquals("string", jobScheduleParam1.getType());
-    assertTrue(jobScheduleParam1.getStringValue().contains( "false" ));
+
+    //test for param1
+    IJobScheduleParam param1 = jobScheduleRequest.getJobParameters().stream()
+      .filter( jsp -> "ParameterNameTest1".equals( jsp.getName()) ).findFirst().get();
+    assertEquals("string", param1.getType());
+    assertTrue(param1.getStringValue().contains( "false" ));
+
+    // test for param2
+    IJobScheduleParam param2 = jobScheduleRequest.getJobParameters().stream()
+      .filter( jsp -> "ParameterNameTest2".equals( jsp.getName()) ).findFirst().get();
+    assertEquals("string", param2.getType());
+    assertTrue(param2.getStringValue().contains( "foo" ));
 
   }
 }
