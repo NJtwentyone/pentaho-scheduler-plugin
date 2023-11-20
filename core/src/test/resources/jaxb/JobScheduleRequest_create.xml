@@ -10,28 +10,26 @@
   <inputFile>/public/Steel Wheels/Top Customers (report).prpt</inputFile>
   <outputFile>/public/output</outputFile>
   <jobParameters>
-    <jobScheduleParam>
+<!--    <jobScheduleParam>-->
 <!--   <jobParameter> start: 1-->
       <name>ParameterNameTest1</name>
       <type>string</type>
       <stringValue>false</stringValue>
-    </jobScheduleParam>
+<!--    </jobScheduleParam>-->
 <!--    </jobParameter> end: 1-->
     <!--   <jobParameter> start: 2-->
-    <jobScheduleParam>
+<!--    <jobScheduleParam>-->
     <name>ParameterNameTest2</name>
     <type>string</type>
     <stringValue>foo</stringValue>
-
-    </jobScheduleParam>
+<!--    </jobScheduleParam>-->
     <!--    </jobParameter> end: 2-->
     <!--   <jobParameter> start: 3-->
-    <jobScheduleParam>
+<!--    <jobScheduleParam>-->
       <name>ParameterNameTest3</name>
       <type>string</type>
       <stringValue>hero</stringValue>
-
-    </jobScheduleParam>
+<!--    </jobScheduleParam>-->
     <!--    </jobParameter> end: 3-->
   </jobParameters>
 </jobScheduleRequest>
