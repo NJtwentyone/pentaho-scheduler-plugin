@@ -27,6 +27,7 @@ import java.util.Map;
 
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.annotation.XmlAnyElement;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlElementRef;
 import javax.xml.bind.annotation.XmlElementRefs;
 import javax.xml.bind.annotation.XmlElementWrapper;
@@ -104,12 +105,12 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
 
   SimpleJobTrigger simpleJobTrigger;
 
-//  @XmlAnyElement
-  @XmlElementRefs({
-    @XmlElementRef(name="jobScheduleParam", namespace = "http://www.pentaho.com/schema/" ,type=JobScheduleParam.class)
-  })
-  @XmlElementWrapper(name="jobParameters")
-@XmlAnyElement(lax = true)
+  @XmlElement(type=JobScheduleParam.class)
+//  @XmlElementRefs({
+//    @XmlElementRef( namespace = "http://www.pentaho.com/schema/" ,type=JobScheduleParam.class)
+//  })
+//  @XmlElementWrapper(name="")
+//@XmlAnyElement(lax = true)
   List<IJobScheduleParam> jobParameters = new ArrayList<>();
 
   Map<String, String> pdiParameters;
