@@ -25,6 +25,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
 import org.pentaho.platform.api.scheduler2.CronJobTrigger;
@@ -98,6 +99,7 @@ public class JobScheduleRequest implements Serializable, IJobScheduleRequest {
 
   SimpleJobTrigger simpleJobTrigger;
 
+  @XmlElement(type=JobScheduleParam.class)
   List<JobScheduleParam> jobParameters = new ArrayList<>();
 
   Map<String, String> pdiParameters;
