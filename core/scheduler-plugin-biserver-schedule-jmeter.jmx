@@ -1031,7 +1031,7 @@
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /scheduler/job [PVFS-HTML]" enabled="true">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /scheduler/job [PVFS-HTML]" enabled="false">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -1225,7 +1225,7 @@
               </BeanShellPostProcessor>
               <hashTree/>
             </hashTree>
-            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /scheduler/job [PVFS-PDF]" enabled="false">
+            <HTTPSamplerProxy guiclass="HttpTestSampleGui" testclass="HTTPSamplerProxy" testname="POST /scheduler/job [PVFS-PDF]" enabled="true">
               <boolProp name="HTTPSampler.postBodyRaw">true</boolProp>
               <elementProp name="HTTPsampler.Arguments" elementType="Arguments">
                 <collectionProp name="Arguments.arguments">
@@ -1268,6 +1268,36 @@
       &quot;stringValue&quot;: [&#xd;
         &quot;yyyyMMddHHmmss&quot;&#xd;
       ],&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_TO&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;random.user@randomDomain.net&quot;,&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_CC&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;&quot;,&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_BCC&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;&quot;,&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_SUBJECT&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;European Sales (geo map) schedule has successfully run.&quot;,&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_MESSAGE&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;random message about report&quot;,&#xd;
+      &quot;type&quot;: &quot;string&quot;&#xd;
+    },&#xd;
+    {&#xd;
+      &quot;name&quot;: &quot;_SCH_EMAIL_ATTACHMENT_NAME&quot;,&#xd;
+      &quot;stringValue&quot;: &quot;JobName-PVFS-pdf-&quot;,&#xd;
       &quot;type&quot;: &quot;string&quot;&#xd;
     }&#xd;
   ]&#xd;

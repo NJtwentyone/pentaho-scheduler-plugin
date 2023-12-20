@@ -23,8 +23,11 @@ package org.pentaho.platform.scheduler2.action;
 import com.google.common.annotations.VisibleForTesting;
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.io.IOUtils;
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.pentaho.di.core.exception.KettleFileException;
+import org.pentaho.di.core.vfs.KettleVFS;
 import org.pentaho.platform.api.action.ActionInvocationException;
 import org.pentaho.platform.api.action.IAction;
 import org.pentaho.platform.api.action.IPostProcessingAction;
@@ -187,7 +190,7 @@ public class ActionRunner implements Callable<Boolean> {
           lock.wait( 1000 );
         }
       }
-      ActionUtil.sendEmail( actionParams, params, outputFilePath );
+      sendEmail( actionParams ); //ActionUtil.sendEmail( actionParams, params, outputFilePath );
       deleteFileIfEmpty();
     }
     if ( actionBean instanceof IPostProcessingAction ) {
@@ -257,9 +260,32 @@ public class ActionRunner implements Callable<Boolean> {
     schedulerOutputPathResolver.setActionUser( this.actionUser );
   }
 
+  /**
+   * Send email with attachment including generated output file.
+   * The successfulness of email will be determined by logic in {@link ActionUtil#sendEmail(Map, Map, String)}
+   *
+   * @param actionParams
+   * @return
+   */
+  protected void sendEmail( Map<String, Object> actionParams )  {
+    // TODO refactor + get inputStream from interface from stream
+    if ( StringUtils.isNotBlank( this.outputFilePath) && this.outputFilePath.startsWith( "pvfs://" ) ) {
+      try {
+        actionParams.put( ActionUtil.EMAIL_ATTACHMENT_INPUT_STREAM_FILENAME, outputFilePath );
+        actionParams.put( ActionUtil.EMAIL_ATTACHMENT_INPUT_STREAM, KettleVFS.getInputStream( outputFilePath ) );
+
+        ActionUtil.sendEmail( actionParams, params );
+      } catch ( KettleFileException e ) {
+        logger.error( "Not able to prepare arguments to call sendEmail", e ); // TODO professionalize
+      }
+    } else {
+      ActionUtil.sendEmail( actionParams, params, outputFilePath );
+    }
+  }
+
   @VisibleForTesting
   void deleteFileIfEmpty() {
-    if ( outputFilePath == null ) {
+    if ( StringUtils.isBlank( outputFilePath ) || !outputFilePath.startsWith( "/" )  ) { // TODO replace with VFSFileProvider#owns
       return;
     }
     IUnifiedRepository repo = PentahoSystem.get( IUnifiedRepository.class );
